@@ -18,14 +18,15 @@ def torn_numbers():
     '''
     Returns list of torn numbers.
     '''
-    smallest_4_digit_square = 1024
-    largest_4_digit_square = 9801
+    smallest_with_4_digit_square = 32
+    largest_with_4_digit_square = 99
     
     torns = []
     
-    for number in range( smallest_4_digit_square,  largest_4_digit_square + 1): 
-        if is_torn_number( number ):
-               torns.append( number )
+    for number in range( smallest_with_4_digit_square,  largest_with_4_digit_square + 1 ): 
+        square = number**2
+        if is_torn_number( square ):
+               torns.append( square )
     
     return torns
 
