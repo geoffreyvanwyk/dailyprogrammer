@@ -3,6 +3,7 @@ var fs = require('fs'),
 
     words = fs.readFileSync('../wordlist.txt').toString().split('\r\n'),
     passwordLength = 7,
+    guessCount = 4,
 
     wordsForGame = words.filter(function (word) {
        return word.length === passwordLength;
@@ -16,7 +17,7 @@ allCandidates = populateCandidateLists(allCandidates, password);
 selectedCandidates = selectCandidates(allCandidates);
 selectedCandidates = shuffleCandidates(selectedCandidates);
 
-console.log('Guess The Password!');
+console.log("Play 'Guess The Password!'");
 console.log('You get 4 guesses.');
 console.log('Here are the candidates:');
 
@@ -25,26 +26,27 @@ selectedCandidates.forEach(function (candidate, index, candidates) {
 });
 
 prompt.start();
+getGuess(password);
 
-var guessCount = 4;
-getGuess();
-
-function getGuess() {
+function getGuess(password) {
     prompt.get(['guess'], function (err, result) {
         if (err) {
-            console.log(err);
-        } else if (result.guess === password) {
-            console.log('You got it right!');
-        } else {
-            guessCount -= 1;
-            console.log(numberOfMatches(result.guess, password)
-                .toString()
-                .concat(' correct. ')
-                .concat(guessCount)
-                .concat(' guesses left.'));
-            if (guessCount > 0) {
-                getGuess();
-            }
+            return console.log(err);
+        }
+        
+        if (result.guess === password) {
+            return console.info('You got it right!');
+        }
+
+        guessCount -= 1;
+        console.log('%d/%d correct. %d guesses left', 
+            numberOfMatches(result.guess, password), 
+            password.length, 
+            guessCount
+        );
+
+        if (guessCount > 0) {
+            getGuess(password);
         }
     });
 }
