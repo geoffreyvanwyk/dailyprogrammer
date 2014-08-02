@@ -1,9 +1,16 @@
 var fs = require('fs'),
+    prompt = require('prompt'),
 
     words = fs.readFileSync('../wordlist.txt').toString().split('\r\n'),
     passwordLength = 7,
-    wordsForGame = nCharWords(passwordLength, words),
-    password = password(wordsForGame),
+
+    wordsForGame = words.filter(function (word) {
+       return word.length === passwordLength;
+    });
+
+    password = wordsForGame[randomIndex(0, wordsForGame.length)],
+    allCandidates = {},
+    selectedCandidates = [],
 
     guessesPerDifficulty = {
         veryEasy: 3,
@@ -13,26 +20,73 @@ var fs = require('fs'),
         veryHard: 13
     };
 
-console.log(password(WORD_LENGTH, words));
+prepareCandidateLists();
+populateCandidateLists();
+selectCandidates();
 
-function candidateWords(password, wordsForGame) {
-    var candidates = [password],
-        passwordChars = password.split('');
+console.log('Guess The Password!');
+console.log('You get 4 guesses.');
+console.log('Here are the candidates:');
 
-    passwordChars.forEach(function (char) {
+selectedCandidates.forEach(function (candidate, index, candidates) {
+    console.log(candidate);
+});
+
+var guessCount = 0;
+prompt.start();
+getGuess();
+
+function getGuess() {
+    prompt.get(['guess'], function (err, result) {
+        if (err) {
+            console.log(err);
+        } else if (result.guess === password) {
+        console.log('You got it right!');
+        } else {
+            console.log('Dead wrong!');
+            guessCount += 1;
+            if (guessCount < 5) {
+                getGuess();
+            }
+        }
     });
 }
 
-function password(wordsForGame) {
-    return wordsForGame[randomIndex(0, wordsForGame.length)];
+function prepareCandidateLists() {
+    var passChars = password.split('');
+
+    passChars.forEach(function (char, index) {
+       allCandidates[(index+1).toString()] = [];
+    });
+
+    allCandidates[password.length].push(password);
 }
 
-function nCharWords(n, words) {
-   var wordsOfNChars = words.filter(function (word) {
-       return word.length === n;
-   });
+function populateCandidateLists() {
+    wordsForGame.forEach(function (word, index, words) {
+        var matches = [],
+            chars = word.split('');;
 
-   return wordsOfNChars;
+        chars.forEach(function (char, index, chars) {
+            matches.push(chars[index] === password[index] ? 1 : 0);
+        });
+
+        var numberOfMatches = matches.reduce(function (prev, cur) {
+            return prev + cur;
+        });
+
+        if (numberOfMatches > 0) {
+            allCandidates[numberOfMatches.toString()].push(word);
+        }
+    });
+}
+
+function selectCandidates() {
+    for (list in allCandidates) {
+        if (allCandidates.hasOwnProperty(list)) {
+            selectedCandidates.push(allCandidates[list][randomIndex(0, allCandidates[list].length)]);
+        }
+    }
 }
 
 function randomIndex(min, max) {
