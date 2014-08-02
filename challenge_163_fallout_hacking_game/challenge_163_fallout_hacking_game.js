@@ -46,13 +46,11 @@ function startGame(wordsForGame, password, allCandidates, guessCount) {
     selectedCandidates = selectCandidates(populatedLists);
     shuffledCandidates = shuffleCandidates(selectedCandidates);
 
-
     shuffledCandidates.forEach(function (candidate, index, candidates) {
         console.log(candidate);
     });
 
     getGuess(password, guessCount);
-
 }
 
 function getGuess(password, guessCount) {
@@ -61,7 +59,7 @@ function getGuess(password, guessCount) {
             return console.log(err);
         }
         
-        if (result.guess === password) {
+        if (result.guess.trim() === password) {
             return console.log('You got it right!');
         }
 
@@ -118,8 +116,12 @@ function selectCandidates(allCandidates) {
 
     for (list in allCandidates) {
         if (allCandidates.hasOwnProperty(list)) {
-            var index = randomIndex(0, allCandidates[list].length);
-            selectedCandidates.push(allCandidates[list][index]);
+            var index = randomIndex(0, allCandidates[list].length),
+                candidate = allCandidates[list][index];
+            
+            if (candidate) {
+                selectedCandidates.push(candidate);
+            }
         }
     }
 
