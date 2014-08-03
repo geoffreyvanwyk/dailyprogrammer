@@ -1,7 +1,6 @@
-var fs = require('fs'),
-    prompt = require('prompt'),
+var prompt = require('prompt'),
 
-    WORDS = fs.readFileSync('../wordlist.txt').toString().split('\r\n'),
+    WORDS = require('fs').readFileSync('../wordlist.txt').toString().split('\r\n'),
     GUESS_FRACTION = 0.75,
     WORDS_PER_DIFFICULTY = {
         '1': 3,
@@ -46,9 +45,7 @@ function startGame(wordsForGame, password, allCandidates, guessCount) {
     selectedCandidates = selectCandidates(populatedLists);
     shuffledCandidates = shuffleCandidates(selectedCandidates);
 
-    shuffledCandidates.forEach(function (candidate, index, candidates) {
-        console.log(candidate);
-    });
+    console.log(shuffledCandidates.join('\n'));
 
     getGuess(password, guessCount);
 }
