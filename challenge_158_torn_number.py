@@ -6,57 +6,49 @@
 # together and square the sum we get as the result, the complete original number on the label! Thus, 30 added
 # to 25 is 55, and 55 multiplied by 55 is 3025. Curious, is it not? 
 #
-# Now, the challenge is to find another number, composed of four figures, all different, which may be divided 
+# Now, the challenge is to find another number, composed of four figures, all different, which may be divided
 # in the middle and produce the same result.
-# 
+#
 # BONUS
-# 
+#
 # Create a program that verifies if a number is a valid torn number.
 #
 
 def torn_numbers():
-    '''
-    Returns list of torn numbers.
-    '''
-    smallest_with_4_digit_square = 32
-    largest_with_4_digit_square = 99
-    
+    ints_with_4_digit_squares = {
+        'smallest': 32,
+        'largest': 99
+    }
+ 
     torns = []
-    
-    for number in range( smallest_with_4_digit_square,  largest_with_4_digit_square + 1 ): 
+
+    for number in range(ints_with_4_digit_squares['smallest'],  ints_with_4_digit_squares['largest'] + 1 ):
         square = number**2
-        if is_torn_number( square ):
-               torns.append( square )
-    
+        if is_torn_number(square):
+               torns.append(square)
+
     return torns
 
-def is_torn_number( number ):
-    '''
-    Returns True if parameter number (int) is a torn number; False, otherwise.
-    '''
-    if is_4_digit_number( number ) and has_unique_digits( number ) :
-        first = number / 100 # First two digits as a number.
-        second = number - ( first * 100 ) # Second two digits as a number.
-        
-        if ( first + second )**2 == number:
-            return True
-    
-    return False
+def is_torn_number(number):
+    return is_4_digit_number(number) and \
+        has_unique_digits(number) and \
+        (subnumber(number, 0, 2) + subnumber(number, 2, 4))**2 == number
 
-def is_4_digit_number( number ):
-    '''
-    Returns True if parameter number (int) contains only four digits; False, otherwise.
-    '''
-    return len( str( number ) ) == 4
+def is_4_digit_number(number):
+    return len(str(number)) == 4
 
-def has_unique_digits( number ):
-    '''
-    Returns True if all digits of parameter number (int) are unique; False, otherwise.
-    '''
-    string = str( number )
-    for c in string:
-        if string.count( c ) > 1:
+def has_unique_digits(number):
+    string = str(number)
+
+    for character in string:
+        if string.count(character) > 1:
             return False
-    
+
     return True
-    
+
+def subnumber(number, start, stop):
+    try:
+        return int(str(number)[start:stop])
+    except (ValueError):
+        print 'ValueError: First argument must be an integer'
+
