@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # DESCRIPTION
 #
 # I had the other day in my possession a label bearing the number 3 0 2 5 in large figures. This got
