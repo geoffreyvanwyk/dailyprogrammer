@@ -5,19 +5,18 @@ def enemyWords(left, right):
     cache = ''
 
     for c in left:
-        if c in right:
-            if not (c in cache):
-                if right.count(c) > left.count(c):
-                    right_remains = right_remains.replace(c, '', left.count(c))
-                    left_remains = left_remains.replace(c, '', right.count(c) - left.count(c))
-                elif right.count(c) < left.count(c):
-                    right_remains = right_remains.replace(c, '', left.count(c) - right.count(c))
-                    left_remains = left_remains.replace(c, '', right.count(c))
-                else:
-                    right_remains = right_remains.replace(c, '', left.count(c))
-                    left_remains = left_remains.replace(c, '', right.count(c))
+        if c in right and not (c in cache):
+            if right.count(c) > left.count(c):
+                right_remains = right_remains.replace(c, '', left.count(c))
+                left_remains = left_remains.replace(c, '', right.count(c) - left.count(c))
+            elif right.count(c) < left.count(c):
+                right_remains = right_remains.replace(c, '', left.count(c) - right.count(c))
+                left_remains = left_remains.replace(c, '', right.count(c))
+            else:
+                right_remains = right_remains.replace(c, '', left.count(c))
+                left_remains = left_remains.replace(c, '', right.count(c))
 
-                cache += c
+            cache += c
 
     result['remains'] = left_remains + right_remains
 
