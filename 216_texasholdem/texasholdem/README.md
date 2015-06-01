@@ -7,6 +7,26 @@ Deals cards to variable number of players as in Texas Holdem Poker.
     $ python setup.py develop
     $ texasholdem
 
+## Output
+
+>#================================================#
+>#               TEXAS HOLDEM POKER               #
+>#================================================#
+>How many players? (minimum 2, maximum 8): 4
+>
+>#==================== HANDS =====================#
+>Yours: 8♠  4♠
+>Player1: J♥ 5♠
+>Player2: 3♠  3♥
+>Player3: 10♥ 5♦
+>
+>#================== COMMUNITY ===================#
+>Flop: A♥ 2♠  3♣
+>Turn: K♦
+>River: 9♥
+>
+>#================================================#
+
 ## Licence
 
 Copyright © 2015 Geoffrey B. van Wyk geoffrey@vanwyk.biz
