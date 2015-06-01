@@ -3,7 +3,8 @@ from cards.card import Card, InvalidCardException
 
 class CardCollection(object):
 
-    '''The cards in a CardCollection are arranged in any order.'''
+    '''The cards in a CardCollection are arranged in any order. A
+    CardCollection can contain any number of cards.'''
 
     def __init__(self):
         self._cards = []
@@ -19,7 +20,7 @@ class CardCollection(object):
         return len(self._cards)
 
     def is_empty(self):
-        return self.count == 0
+        return self.count() == 0
 
     def __str__(self):
         result = ''

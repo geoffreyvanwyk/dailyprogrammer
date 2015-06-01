@@ -5,7 +5,8 @@ from cards.cardcollection import CardCollection
 
 class Deck(CardCollection):
 
-    '''The cards in a Deck is a stack data structure.'''
+    '''The cards in a Deck is a stack data structure. The number of cards in a
+    deck is limited to 52.'''
 
     def __init__(self):
         CardCollection.__init__(self)
